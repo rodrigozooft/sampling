@@ -131,3 +131,16 @@ attrition_pop %>% summarize(mean = mean(YearsAtCompany))
 # Calculate mean YearsAtCompany using attrition_weight
 
 attrition_weight %>% summarize(mean = mean(YearsAtCompany))
+
+# Get unique values of RelationshipSatisfaction
+satisfaction_unique <-  unique(attrition_pop$RelationshipSatisfaction)
+
+# Randomly sample for 2 of the unique satisfaction values
+satisfaction_samp <- sample(satisfaction_unique, size = 2)
+
+# Perform cluster sampling on the selected group getting 0.25 of the population
+attrition_clust <- attrition_pop %>% 
+    filter(RelationshipSatisfaction %in% satisfaction_samp) %>%
+    group_by(RelationshipSatisfaction) %>%
+    slice_sample(n = nrow(attrition_pop) / 4) %>%
+    ungroup()

@@ -111,3 +111,23 @@ education_counts_eq <- attrition_eq %>%
 
 # See the results
 education_counts_eq
+
+# From previous step
+attrition_weight <- attrition_pop %>% 
+  slice_sample(n = 400, weight_by = YearsAtCompany)
+
+# Using attrition_weight, plot YearsAtCompany as a histogram with binwidth 1
+ggplot(attrition_weight, aes(x = YearsAtCompany)) +
+  geom_histogram(binwidth = 1)
+
+# From previous step
+attrition_weight <- attrition_pop %>%
+  slice_sample(n = 400, weight_by = YearsAtCompany)
+
+# Calculate mean YearsAtCompany using attrition_pop
+
+attrition_pop %>% summarize(mean = mean(YearsAtCompany))
+
+# Calculate mean YearsAtCompany using attrition_weight
+
+attrition_weight %>% summarize(mean = mean(YearsAtCompany))

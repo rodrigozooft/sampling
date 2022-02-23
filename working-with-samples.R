@@ -42,4 +42,21 @@ attrition_samp <- attrition_pop %>%
   slice_sample(n = 200)
 
 # View the attrition_samp dataset
-View(attrition_samp)  
+View(attrition_samp)
+
+# From previous step
+sample_size <- 200
+pop_size <- nrow(attrition_pop)
+interval <- pop_size %/% sample_size
+
+# Get row indexes for the sample
+row_indexes <- seq_len(sample_size) * interval
+
+attrition_sys_samp <- attrition_pop %>% 
+  # Add a row ID column
+  rowid_to_column() %>% 
+  # Get 200 rows using systematic sampling
+  slice(row_indexes)
+
+# See the result
+View(attrition_sys_samp)

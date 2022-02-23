@@ -97,3 +97,17 @@ education_counts_strat <- attrition_strat %>%
 
 # See the results
 education_counts_strat
+
+# From previous step
+attrition_eq <- attrition_pop %>%
+  group_by(Education) %>% 
+  slice_sample(n = 30) %>%
+  ungroup()
+
+# Get the counts and percents from attrition_eq
+education_counts_eq <- attrition_eq %>%
+  count(Education, sort = TRUE) %>%
+  mutate(percent = n / sum(n) * 100)
+
+# See the results
+education_counts_eq

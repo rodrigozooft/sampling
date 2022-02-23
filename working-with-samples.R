@@ -81,3 +81,19 @@ ggplot(attrition_shuffled, aes(y = YearsAtCompany, x = rowid)) +
     geom_point() + 
     geom_smooth()
 
+# From previous steps
+attrition_pop %>% 
+  count(Education, sort = TRUE) %>% 
+  mutate(percent = 100 * n / sum(n))
+attrition_strat <- attrition_pop %>% 
+  group_by(Education) %>% 
+  slice_sample(prop = 0.4) %>% 
+  ungroup()
+
+# Get the counts and percents from attrition_strat
+education_counts_strat <- attrition_strat %>%
+  count(Education, sort = TRUE) %>%
+  mutate(percent = n / sum(n) * 100)
+
+# See the results
+education_counts_strat

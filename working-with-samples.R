@@ -27,4 +27,19 @@ randoms <- data.frame(
 # Plot a histogram of normal values, binwidth 0.5
 randoms %>%
   ggplot(aes(x = normal)) + 
-  geom_histogram(binwidth = 0.5)  
+  geom_histogram(binwidth = 0.5)
+
+# View the attrition_pop dataset
+View(attrition_pop)
+
+# Set the seed
+set.seed(281)
+
+attrition_samp <- attrition_pop %>% 
+  # Add a row ID column
+  rowid_to_column() %>% 
+  # Get 200 rows using simple random sampling
+  slice_sample(n = 200)
+
+# View the attrition_samp dataset
+View(attrition_samp)  

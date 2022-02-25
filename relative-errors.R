@@ -52,3 +52,18 @@ dice <- expand_grid(
 
 # Using dice, draw a bar plot of mean_roll as a factor
 ggplot(dice, aes(factor(mean_roll))) + geom_bar()
+
+# From previous steps
+sample_means_1000 <- replicate(
+  n = 1000,
+  expr = {
+    five_rolls <- sample(1:8, size = 5, replace = TRUE)
+    mean(five_rolls)
+  }
+)
+sample_means <- tibble(
+  sample_mean = sample_means_1000
+)
+
+# Using sample_means, draw a bar plot of sample_mean as a factor
+ggplot(sample_means, aes(factor(sample_mean))) + geom_bar()

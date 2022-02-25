@@ -27,3 +27,15 @@ sample_means <- tibble(sample_mean = mean_attritions)
 # Plot a histogram of the `sample_mean` column, binwidth 0.05
 ggplot(sample_means, aes(sample_mean)) + 
   geom_histogram(binwidth = 0.05
+
+# Expand a grid representing 5 8-sided dice
+dice <- expand_grid(
+    die1 = 1:8,
+    die2 = 1:8,
+    die3 = 1:8,
+    die4 = 1:8,
+    die5 = 1:8
+)
+
+# See the result
+dice

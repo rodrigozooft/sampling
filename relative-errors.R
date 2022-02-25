@@ -39,3 +39,16 @@ dice <- expand_grid(
 
 # See the result
 dice
+
+# From previous step
+dice <- expand_grid(
+  die1 = 1:8,
+  die2 = 1:8,
+  die3 = 1:8,
+  die4 = 1:8,
+  die5 = 1:8
+) %>% 
+  mutate(mean_roll = (die1 + die2 + die3 + die4 + die5) / 5)
+
+# Using dice, draw a bar plot of mean_roll as a factor
+ggplot(dice, aes(factor(mean_roll))) + geom_bar()

@@ -101,3 +101,31 @@ sd_attrition_pop <- attrition_pop %>%
 
 # The sample sizes of each sampling distribution
 sample_sizes <- c(5, 50, 500)
+
+# Replicate this 1000 times
+mean_danceability_1000 <- replicate(
+  n = 1000,
+  exp = {
+    spotify_1_resample <- spotify_sample %>% 
+      slice_sample(prop = 1, replace = TRUE)
+    spotify_1_resample %>% 
+      summarize(mean_danceability = mean(danceability)) %>% 
+      pull(mean_danceability)
+  }
+)
+
+# See the result
+mean_danceability_1000
+
+# From previous steps
+mean_danceability_1000 <- load_step_4()
+
+# Store the resamples in a tibble
+bootstrap_distn <- tibble(
+  resample_mean = mean_danceability_1000
+)
+
+# Draw a histogram of the resample means with binwidth 0.002
+
+ggplot(bootstrap_distn, aes(resample_mean)) +
+  geom_histogram(binwidth = 0.002)

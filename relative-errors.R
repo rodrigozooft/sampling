@@ -81,8 +81,23 @@ mean_of_means_50 <- sampling_distribution_50 %>%
 mean_of_means_500 <- sampling_distribution_500 %>%
   summarize(mean_mean_attrition = mean(mean_attrition))
 
-
 # See the results
 mean_of_means_5
 mean_of_means_50
 mean_of_means_500
+
+# From previous step
+sd_of_means_5 <- sampling_distribution_5 %>%
+  summarize(sd_mean_attrition = sd(mean_attrition))
+sd_of_means_50 <- sampling_distribution_50 %>%
+  summarize(sd_mean_attrition = sd(mean_attrition))
+sd_of_means_500 <- sampling_distribution_500 %>%
+  summarize(sd_mean_attrition = sd(mean_attrition))
+
+# For comparison: population standard deviation
+sd_attrition_pop <- attrition_pop %>% 
+  summarize(sd_attrition = sd(Attrition == "Yes")) %>% 
+  pull(sd_attrition)
+
+# The sample sizes of each sampling distribution
+sample_sizes <- c(5, 50, 500)

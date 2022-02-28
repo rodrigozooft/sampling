@@ -67,3 +67,22 @@ sample_means <- tibble(
 
 # Using sample_means, draw a bar plot of sample_mean as a factor
 ggplot(sample_means, aes(factor(sample_mean))) + geom_bar()
+
+# Calculate the mean across replicates of the mean attritions in sampling_distribution_5
+mean_of_means_5 <- sampling_distribution_5 %>% 
+  summarize(mean_mean_attrition = mean(mean_attrition))
+
+# Do the same for sampling_distribution_50
+mean_of_means_50 <- sampling_distribution_50 %>%
+  summarize(mean_mean_attrition = mean(mean_attrition))
+
+
+# ... and for sampling_distribution_500
+mean_of_means_500 <- sampling_distribution_500 %>%
+  summarize(mean_mean_attrition = mean(mean_attrition))
+
+
+# See the results
+mean_of_means_5
+mean_of_means_50
+mean_of_means_500

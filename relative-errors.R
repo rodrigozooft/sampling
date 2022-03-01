@@ -186,3 +186,15 @@ boot_distn_sd <- bootstrap_distribution %>% summarize(sd_boost_dist = sd(resampl
 
 # See the results
 c(pop = pop_sd, samp = samp_sd, sam_distn = samp_distn_sd, boot_distn = boot_distn_sd)
+
+# Generate a 95% confidence interval using the std error method
+conf_int_std_error <- bootstrap_distribution %>% 
+  summarize(
+    point_estimate = mean(resample_mean),
+    standard_error = sd(resample_mean),
+    lower = qnorm(0.025, point_estimate, standard_error),
+    upper = qnorm(0.975, point_estimate, standard_error)
+  )
+
+# See the result
+conf_int_std_error

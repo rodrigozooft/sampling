@@ -167,3 +167,22 @@ boot_distn_mean <- bootstrap_distribution %>% summarize(mean_popularity = mean(r
 
 # See the results
 c(pop = pop_mean, samp = samp_mean, sam_distn = samp_distn_mean, boot_distn = boot_distn_mean)
+
+# Calculate the true popluation std dev popularity
+pop_sd <- spotify_population %>% summarize(sd_pop = sd(popularity))
+
+
+# Calculate the true sample std dev popularity
+samp_sd <- spotify_sample %>% summarize(sd_sample = sd(popularity))
+
+
+# Calculate the sampling dist'n estimate of std dev popularity
+samp_distn_sd <- sampling_distribution %>% summarize(sd_sample_dist = sd(sample_mean)* sqrt(500))
+
+
+# Calculate the bootstrap dist'n estimate of std dev popularity
+boot_distn_sd <- bootstrap_distribution %>% summarize(sd_boost_dist = sd(resample_mean)*sqrt(500))
+
+
+# See the results
+c(pop = pop_sd, samp = samp_sd, sam_distn = samp_distn_sd, boot_distn = boot_distn_sd)

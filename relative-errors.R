@@ -129,3 +129,22 @@ bootstrap_distn <- tibble(
 
 ggplot(bootstrap_distn, aes(resample_mean)) +
   geom_histogram(binwidth = 0.002)
+
+# Generate a bootstrap distribution
+mean_popularity_2000_boot <- replicate(
+  # Use 2000 replicates
+  n = 2000,
+  expr = {
+    # Start with the sample
+    spotify_sample %>% 
+      # Sample same number of rows with replacement
+      slice_sample(n = 500, replace = TRUE) %>% 
+      # Calculate the mean popularity
+      summarize(mean_popularity = mean(popularity)) %>% 
+      # Pull out the mean popularity
+      pull(mean_popularity)
+  }
+)
+
+# See the result
+mean_popularity_2000_boot

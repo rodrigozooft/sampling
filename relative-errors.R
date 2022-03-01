@@ -148,3 +148,22 @@ mean_popularity_2000_boot <- replicate(
 
 # See the result
 mean_popularity_2000_boot
+
+# Calculate the true population mean popularity
+pop_mean <- spotify_population %>% summarize(mean_popularity = mean(popularity))
+
+
+# Calculate the original sample mean popularity
+samp_mean <- spotify_sample %>% summarize(mean_popularity = mean(popularity))
+
+
+# Calculate the sampling dist'n estimate of mean popularity
+samp_distn_mean <- sampling_distribution %>% summarize(mean_popularity = mean(sample_mean))
+
+
+# Calculate the bootstrap dist'n estimate of mean popularity
+boot_distn_mean <- bootstrap_distribution %>% summarize(mean_popularity = mean(resample_mean))
+
+
+# See the results
+c(pop = pop_mean, samp = samp_mean, sam_distn = samp_distn_mean, boot_distn = boot_distn_mean)

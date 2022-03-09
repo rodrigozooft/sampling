@@ -198,3 +198,12 @@ conf_int_std_error <- bootstrap_distribution %>%
 
 # See the result
 conf_int_std_error
+
+# Calculate the z-score of late_prop_samp
+z_score <- (late_prop_samp - late_prop_hyp) / std_error
+
+# Calculate the p-value
+p_value <- pnorm(z_score, lower.tail = FALSE)
+                 
+# See the result
+p_value   

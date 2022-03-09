@@ -206,4 +206,14 @@ z_score <- (late_prop_samp - late_prop_hyp) / std_error
 p_value <- pnorm(z_score, lower.tail = FALSE)
                  
 # See the result
-p_value   
+p_value
+
+# Calculate 95% confidence interval using quantile method
+conf_int_quantile <- late_shipments_boot_distn %>%
+  summarize(
+    lower = quantile(prop_late_shipments, 0.025)
+    upper = quantile(prop_late_shipments, 0.975)
+  )
+
+# See the result
+conf_int_quantile

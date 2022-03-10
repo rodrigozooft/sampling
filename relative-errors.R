@@ -217,3 +217,15 @@ conf_int_quantile <- late_shipments_boot_distn %>%
 
 # See the result
 conf_int_quantile
+
+# Calculate the numerator of the test statistic
+numerator <- xbar_no - xbar_yes
+
+# Calculate the denominator of the test statistic
+denominator <- sqrt(s_no ^ 2 / n_no + s_yes ^ 2 / n_yes)
+
+# Calculate the test statistic
+t_stat <- numerator / denominator
+
+# See the result
+t_stat

@@ -229,3 +229,12 @@ t_stat <- numerator / denominator
 
 # See the result
 t_stat
+
+# Calculate the degrees of freedom
+degrees_of_freedom <- n_no + n_yes - 2
+
+# Calculate the p-value from the test stat
+p_value <- pt(t_stat, degrees_of_freedom, lower.tail = TRUE)
+
+# See the result
+p_value

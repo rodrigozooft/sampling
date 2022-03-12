@@ -238,3 +238,13 @@ p_value <- pt(t_stat, degrees_of_freedom, lower.tail = TRUE)
 
 # See the result
 p_value
+
+# View the dem_votes_potus_12_16 dataset
+View(dem_votes_potus_12_16)
+
+# Calculate the differences from 2012 to 2016
+sample_dem_data <- dem_votes_potus_12_16 %>%
+    mutate(diff = dem_percent_12 - dem_percent_16)
+
+# See the result
+sample_dem_data

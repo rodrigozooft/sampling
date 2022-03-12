@@ -255,3 +255,12 @@ sample_dem_data <- dem_votes_potus_12_16 %>%
 
 # Using sample_dem_data, plot diff as a histogram
 sample_dem_data %>% ggplot(aes(diff)) + geom_histogram(binwidth = 1)
+
+# The paired t-test
+t.test(
+  x = sample_dem_data$dem_percent_12,
+  y = sample_dem_data$dem_percent_16,
+  paired = FALSE,
+  alternative = "greater",
+  mu = 0
+)

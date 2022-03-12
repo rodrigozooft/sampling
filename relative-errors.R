@@ -248,3 +248,10 @@ sample_dem_data <- dem_votes_potus_12_16 %>%
 
 # See the result
 sample_dem_data
+
+# From previous step
+sample_dem_data <- dem_votes_potus_12_16 %>% 
+  mutate(diff = dem_percent_12 - dem_percent_16)
+
+# Using sample_dem_data, plot diff as a histogram
+sample_dem_data %>% ggplot(aes(diff)) + geom_histogram(binwidth = 1)

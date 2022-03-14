@@ -275,3 +275,9 @@ late_shipments %>%
  ggplot(late_shipments, aes(x = shipment_mode, y = pack_price)) +
     geom_boxplot()+
     coord_flip()
+
+# From previous step
+mdl_pack_price_vs_shipment_mode <- lm(pack_price ~ shipment_mode, data = late_shipments)
+
+# Perform ANOVA on the regression model
+anova(mdl_pack_price_vs_shipment_mode)

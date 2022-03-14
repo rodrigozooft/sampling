@@ -291,3 +291,19 @@ test_results <- pairwise.t.test(
 
 # See the results
 test_results
+
+# From previous step
+p_0 <- 0.06
+p_hat <- late_shipments %>%
+  summarize(prop_late = mean(late == "Yes")) %>%
+  pull(prop_late)
+n <- nrow(late_shipments)
+numerator <- p_hat - p_0
+denominator <- sqrt(p_0 * (1 - p_0) / n)
+z_score <- numerator / denominator
+
+# Calculate the p-value from the z-score
+p_value <- pnorm(z_score, lower.tail = FALSE)
+
+# See the result
+p_value

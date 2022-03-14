@@ -281,3 +281,13 @@ mdl_pack_price_vs_shipment_mode <- lm(pack_price ~ shipment_mode, data = late_sh
 
 # Perform ANOVA on the regression model
 anova(mdl_pack_price_vs_shipment_mode)
+
+# Modify the pairwise t-tests to use Bonferroni p-value adjustment
+test_results <- pairwise.t.test(
+  late_shipments$pack_price,
+  late_shipments$shipment_mode,
+  p.adjust.method = "bonferroni"
+)
+
+# See the results
+test_results

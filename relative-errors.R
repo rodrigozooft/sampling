@@ -264,3 +264,14 @@ t.test(
   alternative = "greater",
   mu = 0
 )
+
+# Using late_shipments, group by shipment mode, and calculate the mean and std dev of pack price
+late_shipments %>%
+    group_by(shipment_mode) %>%
+    summarize(xbar_pack_price = mean(pack_price),s_pack_price = sd(pack_price))
+
+# Using late_shipments, plot pack_price vs. shipment_mode
+# as a box plot with flipped x and y coordinates
+ ggplot(late_shipments, aes(x = shipment_mode, y = pack_price)) +
+    geom_boxplot()+
+    coord_flip()

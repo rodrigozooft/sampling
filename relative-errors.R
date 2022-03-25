@@ -307,3 +307,16 @@ p_value <- pnorm(z_score, lower.tail = FALSE)
 
 # See the result
 p_value
+
+# From previous steps
+p_hat <- weighted.mean(p_hats, ns)
+p_hat_times_not_p_hat <- p_hat * (1 - p_hat)
+p_hat_times_not_p_hat_over_ns <- p_hat_times_not_p_hat / ns
+std_error <- sqrt(sum(p_hat_times_not_p_hat_over_ns))
+z_score <- (p_hats["expensive"] - p_hats["reasonable"]) / std_error
+
+# Calculate the p-value from the z-score
+p_value <- pnorm(z_score, lower.tail = FALSE)
+
+# See the result
+p_value

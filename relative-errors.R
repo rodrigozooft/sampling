@@ -320,3 +320,16 @@ p_value <- pnorm(z_score, lower.tail = FALSE)
 
 # See the result
 p_value
+
+# Perform a proportion test appropriate to the hypotheses 
+test_results <- late_shipments %>%
+    prop_test(
+        late ~ freight_cost_group,
+        order = c("expensive", "reasonable"),
+        success = "Yes",
+        alternative = "greater",
+        correct = FALSE
+    )
+
+# See the results
+test_resultss

@@ -49,3 +49,16 @@ ggplot(vendor_inco_term_counts, aes(vendor_inco_term, n)) +
   geom_col() +
   # Add points from hypothesized 
   geom_point(data = hypothesized)
+
+hypothesized_props <- c(
+  EXW = 0.75, CIP = 0.05, DDP = 0.1, FCA = 0.1
+)
+
+# Run chi-square goodness of fit test on vendor_inco_term
+test_results <- late_shipments %>% chisq_test(
+  response = vendor_inco_term,
+  p = hypothesized_props
+)
+
+# See the results
+test_results

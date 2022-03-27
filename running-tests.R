@@ -120,3 +120,22 @@ p_value <- get_p_value(
 
 # See the result
 p_value
+
+# From previous steps
+null_distn <- late_shipments %>% 
+  specify(weight_kilograms ~ late) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(reps = 1000, type = "permute") %>% 
+  calculate(stat = "diff in means", order = c("No", "Yes"))
+obs_stat <- late_shipments %>% 
+  specify(weight_kilograms ~ late) %>% 
+  calculate(stat = "diff in means", order = c("No", "Yes"))
+
+# Get the p-value
+p_value <- get_p_value(
+  null_distn, obs_stat,
+  direction = "less"
+)
+
+# See the result
+p_value

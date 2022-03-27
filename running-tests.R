@@ -139,3 +139,21 @@ p_value <- get_p_value(
 
 # See the result
 p_value
+
+# Run a Wilcoxon-Mann-Whitney test on weight_kilograms vs. late
+test_results <- wilcox.test(
+    weight_kilograms ~ late,
+    data = late_shipments
+)
+
+# See the result
+test_results
+
+# Run a Kruskal-Wallace test on weight_kilograms vs. shipment_mode
+test_results <- kruskal.test(
+   weight_kilograms ~  shipment_mode,
+   data = late_shipments
+)
+
+# See the result
+test_results

@@ -62,3 +62,14 @@ test_results <- late_shipments %>% chisq_test(
 
 # See the results
 test_results
+
+# Extend the pipeline to declare a null hypothesis that the variables are independent
+hypothesized <- late_shipments %>% 
+  specify(
+    late ~ freight_cost_group, 
+    success = "Yes"
+  ) %>% 
+  hypothesize(null = "independence")
+
+# See the result
+hypothesizeds

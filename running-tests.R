@@ -72,4 +72,20 @@ hypothesized <- late_shipments %>%
   hypothesize(null = "independence")
 
 # See the result
-hypothesizeds
+hypothesized
+
+# From previous steps
+null_distn <- late_shipments %>% 
+  specify(
+    late ~ freight_cost_group, 
+    success = "Yes"
+  ) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(reps = 2000, type = "permute") %>% 
+  calculate(
+    stat = "diff in props", 
+    order = c("expensive", "reasonable")
+  )
+
+# Visualize the null distribution
+visualize(null_distn)

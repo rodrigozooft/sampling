@@ -89,3 +89,34 @@ null_distn <- late_shipments %>%
 
 # Visualize the null distribution
 visualize(null_distn)
+
+# From previous steps
+null_distn <- late_shipments %>% 
+  specify(
+    late ~ freight_cost_group, 
+    success = "Yes"
+  ) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(reps = 2000, type = "permute") %>% 
+  calculate(
+    stat = "diff in props", 
+    order = c("expensive", "reasonable")
+  )
+obs_stat <- late_shipments %>% 
+  specify(
+    late ~ freight_cost_group, 
+    success = "Yes"
+  ) %>% 
+  calculate(
+    stat = "diff in props", 
+    order = c("expensive", "reasonable")
+  )
+
+# Get the p-value
+p_value <- get_p_value(
+  null_distn, obs_stat,
+  direction = "two sided"
+)
+
+# See the result
+p_value

@@ -370,3 +370,30 @@ disc_perm_big %>%
 
 disc_perm_big %>%
   get_p_value(obs_stat = diff_orig_big, direction = "greater")
+
+# Recall the original data
+disc %>% 
+  count(sex, promote)
+
+# Tabulate the new data
+disc_new %>%
+  count(sex, promote)
+
+# Recall the distribution of the original permuted differences
+ggplot(disc_perm, aes(x = stat)) + 
+  geom_histogram() +
+  geom_vline(aes(xintercept = diff_orig), color = "red")
+
+# Plot the distribution of the new permuted differences
+ggplot(disc_perm_new, aes(x = stat)) + 
+  geom_histogram() +
+  geom_vline(aes(xintercept = diff_orig_new), color = "red")
+
+# Recall the p-value from the original data
+disc_perm %>%
+  summarize(p_value = mean(diff_orig <= stat))
+
+# Find the p-value from the new data
+
+disc_perm_new %>%
+  summarize(p_value = mean(diff_orig_new <= stat))

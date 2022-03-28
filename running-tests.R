@@ -297,7 +297,7 @@ disc_perm %>%
     # ... and the 0.99 quantile
     q.99 = quantile(stat, p = 0.99)
   )
-  
+
 # Use disc_perm
 disc_perm %>% 
   # ... to calculate summary stats
@@ -309,3 +309,13 @@ disc_perm %>%
     # ... and 0.1 
     q.10 = quantile(stat, p = 0.1)
   )
+
+# Tabulate the small dataset
+disc_small %>% 
+  # Select sex and promote
+  count(sex, promote)
+  
+# Do the same for disc_big
+disc_big %>%
+  count(sex, promote)
+

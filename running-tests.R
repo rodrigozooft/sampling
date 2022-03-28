@@ -177,3 +177,19 @@ ggplot(NHANES, aes(x = SleepHrsNight, color = SleepTrouble)) +
   geom_density(adjust = 2) + 
   # Facet by HealthGen
   facet_wrap(~ HealthGen)
+
+  # From previous step
+homes <- NHANES %>%
+  select(Gender, HomeOwn) %>%
+  filter(HomeOwn %in% c("Own", "Rent"))
+
+diff_orig <- homes %>%   
+  # Group by gender
+  group_by(Gender) %>%
+  # Summarize proportion of homeowners
+  summarize(prop_own = mean(HomeOwn == "Own")) %>%
+  # Summarize difference in proportion of homeowners
+  summarize(obs_diff_prop = diff(prop_own)) # male - female
+  
+# See the result
+diff_orig

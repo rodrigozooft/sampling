@@ -415,3 +415,46 @@ opportunity %>%
 ggplot(opportunity, aes(x = group, fill = decision)) + 
   # Add a bar layer, with position "fill"
   geom_bar(position = "fill")
+
+# Calculate the observed difference in purchase rate
+diff_obs <- opportunity %>%
+  # Group by group
+  group_by(group) %>%
+  # Calculate proportion deciding to buy a DVD
+  summarize(prop_buy = mean(decision == "buyDVD")) %>%
+  # Calculate difference between groups
+  summarize(stat = diff(prop_buy)) %>% 
+  pull()
+
+# Create data frame of permuted differences in purchase rates
+opp_perm <- opportunity %>%
+  # Specify decision vs. group, where success is buying a DVD
+  specify(decision ~ group, success = "buyDVD") %>%
+  # Set the null hypothesis to independence
+  hypothesize(null = "independence") %>%
+  # Generate 1000 reps of type permute
+  generate(reps = 1000, type = "permute") %>%
+  # Calculate the summary stat difference in proportions
+  calculate(stat = "diff in props", order = c("treatment", "control"))
+    
+# Review the result
+opp_perm
+
+# From previous steps
+diff_obs <- opportunity %>%
+  group_by(group) %>%
+  summarize(prop_buy = mean(decision == "buyDVD")) %>%
+  summarize(stat = diff(prop_buy)) %>% 
+  pull()
+opp_perm <- opportunity %>%
+  specify(decision ~ group, success = "buyDVD") %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "diff in props", order = c("treatment", "control"))
+  
+# Using the permuation data, plot stat
+ggplot(opp_perm, aes(x = stat)) + 
+  # Add a histogram layer with binwidth 0.005
+  geom_histogram(binwidth = 0.005) +
+  # Add a vline layer with intercept diff_obs
+  geom_vline(aes(xintercept = diff_obs), color = "red")

@@ -396,4 +396,8 @@ disc_perm %>%
 # Find the p-value from the new data
 
 disc_perm_new %>%
-  summarize(p_value = mean(diff_orig_new <= stat))
+  summarize(p_value = mean(diff_orig_new <= stat))  
+
+# Calculate the two-sided p-value
+disc_perm %>%
+  summarize(p_value = 2 * mean(diff_orig <= stat))

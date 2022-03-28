@@ -401,3 +401,12 @@ disc_perm_new %>%
 # Calculate the two-sided p-value
 disc_perm %>%
   summarize(p_value = 2 * mean(diff_orig <= stat))
+
+# Tabulate the data
+opportunity %>%
+  count(decision, group)
+
+# Find the proportion who bought the DVD in each group
+opportunity %>%
+  group_by(group) %>%
+  summarize(buy_prop = mean(decision == "buyDVD"))

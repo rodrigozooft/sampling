@@ -297,3 +297,15 @@ disc_perm %>%
     # ... and the 0.99 quantile
     q.99 = quantile(stat, p = 0.99)
   )
+  
+# Use disc_perm
+disc_perm %>% 
+  # ... to calculate summary stats
+  summarize(
+    # Find the 0.01 quantile of stat
+    q.01 = quantile(stat, p = 0.01),
+    # ... and 0.05
+    q.05 = quantile(stat, p = 0.05),
+    # ... and 0.1 
+    q.10 = quantile(stat, p = 0.1)
+  )

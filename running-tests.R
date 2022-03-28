@@ -331,3 +331,21 @@ ggplot(disc_perm_big, aes(x = stat)) +
   geom_histogram(binwidth = 0.01) +
   # Change the x-axis intercept to diff_orig_big
   geom_vline(aes(xintercept = diff_orig_big), color = "red")
+
+calc_upper_quantiles <- function(dataset) {
+  dataset %>% 
+    summarize(
+      q.90 = quantile(stat, p = 0.90),
+      q.95 = quantile(stat, p = 0.95),
+      q.99 = quantile(stat, p = 0.99)
+    )
+}
+
+# Recall the quantiles associated with the original dataset
+calc_upper_quantiles(disc_perm)
+
+# Calculate the quantiles associated with the small dataset
+calc_upper_quantiles(disc_perm_small)
+
+# Calculate the quantiles associated with the big dataset
+calc_upper_quantiles(disc_perm_big)

@@ -214,3 +214,18 @@ homeown_perm <- homes %>%
 # Dotplot of 100 permuted differences in proportions
 ggplot(homeown_perm, aes(x = stat)) + 
   geom_dotplot(binwidth = 0.001)
+
+# Perform 1000 permutations
+homeown_perm <- homes %>%
+  # Specify HomeOwn vs. Gender, with `"Own" as success
+  specify(HomeOwn ~ Gender, success = "Own") %>%
+  # Use a null hypothesis of independence
+  hypothesize(null = "independence") %>% 
+  # Generate 1000 repetitions (by permutation)
+  generate(reps = 1000, type = "permute") %>% 
+  # Calculate the difference in proportions (male then female)
+  calculate(stat = "diff in props", order = c("male", "female"))
+
+# Density plot of 1000 permuted differences in proportions
+ggplot(homeown_perm, aes(x = stat)) + 
+  geom_density()

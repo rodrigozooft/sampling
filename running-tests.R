@@ -287,3 +287,13 @@ ggplot(disc_perm, aes(x = stat)) +
   geom_histogram(binwidth = 0.01) +
   # Add a vertical line at diff_orig
   geom_vline(aes(xintercept = diff_orig), color = "red")
+
+disc_perm %>% 
+  summarize(
+    # Find the 0.9 quantile of diff_perm's stat
+    q.90 = quantile(stat, p = 0.9),
+    # ... and the 0.95 quantile
+    q.95 = quantile(stat, p = 0.95),
+    # ... and the 0.99 quantile
+    q.99 = quantile(stat, p = 0.99)
+  )

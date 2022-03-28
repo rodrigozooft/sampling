@@ -268,3 +268,22 @@ disc_perm %>%
 disc_perm %>%
   # Calculate difference in proportion, male then female
   calculate(stat = "diff in props", order = c("male", "female"))
+
+# From previous steps
+diff_orig <- disc %>%
+  group_by(sex) %>%
+  summarize(prop_prom = mean(promote == "promoted")) %>%
+  summarize(stat = diff(prop_prom)) %>% 
+  pull()
+disc_perm <- disc %>%
+  specify(promote ~ sex, success = "promoted") %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "diff in props", order = c("male", "female"))
+  
+# Using permutation data, plot stat
+ggplot(disc_perm, aes(x = stat)) + 
+  # Add a histogram layer
+  geom_histogram(binwidth = 0.01) +
+  # Add a vertical line at diff_orig
+  geom_vline(aes(xintercept = diff_orig), color = "red")

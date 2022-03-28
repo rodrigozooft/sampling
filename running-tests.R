@@ -193,3 +193,13 @@ diff_orig <- homes %>%
   
 # See the result
 diff_orig
+
+# Perform 10 permutations
+homeown_perm <- homes %>%
+  specify(HomeOwn ~ Gender, success = "Own") %>%
+  hypothesize(null = "independence") %>% 
+  generate(reps = 10, type = "permute") 
+
+
+# Print results to console
+homeown_perm

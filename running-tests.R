@@ -252,3 +252,19 @@ disc %>%
   group_by(sex) %>%
   # Calculate proportion promoted summary stat
   summarize(promoted_prop = mean(promote == "promoted"))
+
+# Replicate the entire data frame, permuting the promote variable
+disc_perm <- disc %>%
+  specify(promote ~ sex, success = "promoted") %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 5, type = "permute")
+
+disc_perm %>%
+  # Group by replicate
+  group_by(replicate) %>%
+  # Count per group
+  count(promote, sex)
+
+disc_perm %>%
+  # Calculate difference in proportion, male then female
+  calculate(stat = "diff in props", order = c("male", "female"))

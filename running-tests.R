@@ -410,3 +410,8 @@ opportunity %>%
 opportunity %>%
   group_by(group) %>%
   summarize(buy_prop = mean(decision == "buyDVD"))
+
+# Plot group, filled by decision
+ggplot(opportunity, aes(x = group, fill = decision)) + 
+  # Add a bar layer, with position "fill"
+  geom_bar(position = "fill")

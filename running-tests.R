@@ -349,3 +349,24 @@ calc_upper_quantiles(disc_perm_small)
 
 # Calculate the quantiles associated with the big dataset
 calc_upper_quantiles(disc_perm_big)
+
+# Visualize and calculate the p-value for the original dataset
+disc_perm %>%
+  visualize(obs_stat = diff_orig, direction = "greater")
+
+disc_perm %>%
+  get_p_value(obs_stat = diff_orig, direction = "greater")
+
+# Visualize and calculate the p-value for the small dataset
+disc_perm_small %>%
+  visualize(obs_stat = diff_orig_small, direction = "greater")
+
+disc_perm_small %>%
+  get_p_value(obs_stat = diff_orig_small, direction = "greater")
+
+# Visualize and calculate the p-value for the big dataset
+disc_perm_big %>%
+  visualize(obs_stat = diff_orig_big, direction = "greater")
+
+disc_perm_big %>%
+  get_p_value(obs_stat = diff_orig_big, direction = "greater")

@@ -229,3 +229,14 @@ homeown_perm <- homes %>%
 # Density plot of 1000 permuted differences in proportions
 ggplot(homeown_perm, aes(x = stat)) + 
   geom_density()
+
+# Plot permuted differences, diff_perm
+ggplot(homeown_perm, aes(x = diff_perm)) + 
+  # Add a density layer
+  geom_density() +
+  # Add a vline layer with intercept diff_orig
+  geom_vline(aes(xintercept = diff_orig), color = "red")
+
+# Compare permuted differences to observed difference
+homeown_perm %>%
+  summarize(n_perm_le_obs = sum(diff_perm <= diff_orig))

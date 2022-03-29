@@ -543,3 +543,20 @@ percentile_ci <- one_poll_boot %>%
 one_poll_boot %>% 
   # Visualize in-between the endpoints given by percentile_ci
   visualize(endpoints = percentile_ci, direction = "between")
+
+calc_t_conf_int <- function(resampled_dataset) {
+  resampled_dataset %>%
+    summarize(
+      lower = p_hat - 2 * sd(stat),
+      upper = p_hat + 2 * sd(stat)
+    )
+}
+
+# Find the bootstrap t-confidence interval for 30 resamples
+calc_t_conf_int(one_poll_boot)
+
+# ... and for 300 resamples
+calc_t_conf_int(one_poll_boot_300)
+
+# ... and for 3 resamples
+calc_t_conf_int(one_poll_boot_3)

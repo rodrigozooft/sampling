@@ -497,3 +497,18 @@ both_ex_props <- bind_rows(ex1_props, ex2_props, .id = "experiment")
 ggplot(both_ex_props, aes(stat, color = experiment)) + 
   # Add a density layer with bandwidth 0.1
   geom_density(bw = 0.1)
+
+# Proportion of yes votes by poll
+props <- all_polls %>% 
+  group_by(poll) %>% 
+  summarize(prop_yes = mean(vote == "yes"))
+
+# The true population proportion of yes votes
+true_prop_yes <- 0.6
+
+# Proportion of polls within 2SE
+props %>%
+  # Add column: is prop_yes in 2SE of 0.6
+  mutate(is_in_conf_int = abs(prop_yes - true_prop_yes) < 2 * sd(prop_yes)) %>%
+  # Calculate  proportion in conf int
+  summarize(prop_in_conf_int = mean(is_in_conf_int))

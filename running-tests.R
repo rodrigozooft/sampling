@@ -560,3 +560,34 @@ calc_t_conf_int(one_poll_boot_300)
 
 # ... and for 3 resamples
 calc_t_conf_int(one_poll_boot_3)
+
+calc_p_hat <- function(dataset) {
+  dataset %>%
+    summarize(stat = mean(vote == "yes")) %>%
+    pull()
+}
+calc_t_conf_int <- function(resampled_dataset, p_hat) {
+  resampled_dataset %>%
+    summarize(
+      lower = p_hat - 2 * sd(stat),
+      upper = p_hat + 2 * sd(stat)
+    )
+}
+
+# Find proportion of yes votes from original population
+p_hat <- calc_p_hat(one_poll)
+
+# Review the value
+p_hat  
+
+# Calculate bootstrap t-confidence interval (original 0.6 param)
+calc_t_conf_int(one_poll_boot, p_hat)
+
+# Find proportion of yes votes from new population
+p_hat_0.8 <- calc_p_hat(one_poll_0.8)
+  
+# Review the value
+p_hat_0.8  
+  
+# Calculate the bootstrap t-confidence interval (new 0.8 param)
+calc_t_conf_int(one_poll_boot_0.8, p_hat_0.8)

@@ -591,3 +591,20 @@ p_hat_0.8
   
 # Calculate the bootstrap t-confidence interval (new 0.8 param)
 calc_t_conf_int(one_poll_boot_0.8, p_hat_0.8)
+
+# Calculate a 95% bootstrap percentile interval
+one_poll_boot %>% 
+  get_confidence_interval(level = 0.95) 
+
+# Calculate a 99% bootstrap percentile interval
+one_poll_boot %>% 
+  get_confidence_interval(level = 0.99) 
+
+# Calculate a 90% bootstrap percentile interval
+one_poll_boot %>% 
+  get_confidence_interval(level = 0.90)  
+
+# Plot ci_endpoints vs. ci_percent to compare the intervals
+ggplot(conf_int_data, aes(x = ci_percent, y = ci_endpoints)) +
+  # Add a line layer
+  geom_line()

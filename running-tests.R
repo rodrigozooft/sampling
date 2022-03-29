@@ -512,3 +512,26 @@ props %>%
   mutate(is_in_conf_int = abs(prop_yes - true_prop_yes) < 2 * sd(prop_yes)) %>%
   # Calculate  proportion in conf int
   summarize(prop_in_conf_int = mean(is_in_conf_int))
+
+# From previous exercises
+one_poll <- all_polls %>%
+  filter(poll == 1) %>%
+  select(vote)
+one_poll_boot <- one_poll %>%
+  specify(response = vote, success = "yes") %>%
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "prop")
+  
+p_hat <- one_poll %>%
+  # Calculate proportion of yes votes
+  summarize(stat = mean(vote == "yes")) %>%
+  pull()
+
+# Create an interval of plausible values
+one_poll_boot %>%
+  summarize(
+    # Lower bound is p_hat minus 2 std errs
+    lower = p_hat - 2 * sd(stat),
+    # Upper bound is p_hat plus 2 std errs
+    upper = p_hat + 2 * sd(stat)
+  )

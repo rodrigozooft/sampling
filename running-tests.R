@@ -489,3 +489,11 @@ ex1_props %>%
 # Calculate variability of p-hat*
 ex2_props %>% 
   summarize(variability = sd(stat))
+
+# Combine data from both experiments
+both_ex_props <- bind_rows(ex1_props, ex2_props, .id = "experiment")
+
+# Using both_ex_props, plot stat colored by experiment
+ggplot(both_ex_props, aes(stat, color = experiment)) + 
+  # Add a density layer with bandwidth 0.1
+  geom_density(bw = 0.1)

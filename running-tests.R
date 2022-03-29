@@ -535,3 +535,11 @@ one_poll_boot %>%
     # Upper bound is p_hat plus 2 std errs
     upper = p_hat + 2 * sd(stat)
   )
+
+# From previous step
+percentile_ci <- one_poll_boot %>% 
+  get_confidence_interval(level = 0.95)
+  
+one_poll_boot %>% 
+  # Visualize in-between the endpoints given by percentile_ci
+  visualize(endpoints = percentile_ci, direction = "between")

@@ -470,3 +470,22 @@ opp_perm %>%
 # Calculate the p-value using `summarize`
 opp_perm %>%
   summarize(p_value = mean(stat <= diff_orig))
+
+# From previous steps
+ex1_props <- all_polls %>% 
+  group_by(poll) %>% 
+  summarize(stat = mean(vote == "yes"))
+ex2_props <- all_polls %>%
+  filter(poll == 1) %>%
+  select(vote) %>%
+  specify(response = vote, success = "yes") %>%
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "prop")
+  
+# Calculate variability of p-hat
+ex1_props %>% 
+  summarize(variability = sd(stat))
+  
+# Calculate variability of p-hat*
+ex2_props %>% 
+  summarize(variability = sd(stat))

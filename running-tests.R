@@ -458,3 +458,15 @@ ggplot(opp_perm, aes(x = stat)) +
   geom_histogram(binwidth = 0.005) +
   # Add a vline layer with intercept diff_obs
   geom_vline(aes(xintercept = diff_obs), color = "red")
+
+# Visualize the statistic 
+opp_perm %>%
+  visualize(obs_stat = diff_orig, direction = "less")
+
+# Calculate the p-value using `get_p_value`
+opp_perm %>%
+  get_p_value(obs_stat = diff_orig, direction = "less")
+
+# Calculate the p-value using `summarize`
+opp_perm %>%
+  summarize(p_value = mean(stat <= diff_orig))

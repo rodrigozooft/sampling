@@ -751,3 +751,19 @@ d_hat <- diff(p_hats)
 
 # See the result
 d_hat
+
+# From previous step
+null <- gss2016 %>%
+  specify(cappun ~ sex, success = "FAVOR") %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 500, type = "permute") %>%
+  calculate(stat = "diff in props", order = c("FEMALE", "MALE"))
+  
+# Compute two-tailed p-value
+null %>%
+  summarize(
+    one_tailed_pval = mean(stat <= d_hat),
+    two_tailed_pval = 2 * one_tailed_pval
+  ) %>%
+  pull(two_tailed_pval)
+

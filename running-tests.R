@@ -621,3 +621,14 @@ ggplot(gss2016, aes(x = consci)) +
 p_hat <- gss2016 %>%
   summarize(prop_high = mean(consci == "High")) %>%
   pull()
+
+# From previous step
+library(infer)
+boot1 <- gss2016 %>%
+  specify(response = consci, success = "High") %>%
+  generate(reps = 1, type = "bootstrap")
+
+# Compute proportion with high conf
+boot1 %>%
+  summarize(prop_high = mean(consci == "High")) %>%
+  pull()

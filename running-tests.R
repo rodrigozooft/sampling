@@ -646,3 +646,25 @@ SE <- boot_dist %>%
 
 # Create CI
 c(p_hat - 2 * SE, p_hat + 2 * SE)
+
+# From previous steps
+boot_dist_small <- gss2016_small %>%
+  specify(response = consci, success = "High") %>%
+  generate(reps = 500, type = "bootstrap") %>%
+  calculate(stat = "prop")
+SE_small_n <- boot_dist_small %>%
+  summarize(se = sd(stat)) %>%
+  pull()
+boot_dist_smaller <- gss2016_smaller %>%
+  specify(response = consci, success = "High") %>%
+  generate(reps = 500, type = "bootstrap") %>%
+  calculate(stat = "prop")
+
+# Compute and save estimate of second SE
+SE_smaller_n <- boot_dist_smaller %>%
+  summarize(SE_smaller_n = sd(stat)) %>%
+  pull()
+
+# Compare the results for each dataset size
+message("gss2016_small has ", nrow(gss2016_small), " rows and standard error ", SE_small_n)
+message("gss2016_smaller has ", nrow(gss2016_smaller), " rows and standard error ", SE_smaller_n)

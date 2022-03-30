@@ -739,3 +739,15 @@ null %>%
     two_tailed_pval = one_tailed_pval * 2
   ) %>%
   pull(two_tailed_pval)
+
+# From previous step
+p_hats <- gss2016 %>%
+  group_by(sex) %>%
+  summarize(prop_favor = mean(cappun == "FAVOR")) %>%
+  pull()
+  
+# Compute difference in proportions
+d_hat <- diff(p_hats)
+
+# See the result
+d_hat

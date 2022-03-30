@@ -608,3 +608,16 @@ one_poll_boot %>%
 ggplot(conf_int_data, aes(x = ci_percent, y = ci_endpoints)) +
   # Add a line layer
   geom_line()
+
+# From previous steps
+library(dplyr)
+gss2016 <- gss %>%
+  filter(year == 2016)
+library(ggplot2)
+ggplot(gss2016, aes(x = consci)) +
+  geom_bar()
+
+# Compute proportion of high conf
+p_hat <- gss2016 %>%
+  summarize(prop_high = mean(consci == "High")) %>%
+  pull()

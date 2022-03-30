@@ -781,3 +781,22 @@ SE <- boot %>%
 # Form the CI (lower, upper)
 c(d_hat - 2 * SE, d_hat + 2 * SE)
 
+# From previous steps
+p_hats <- gssmod %>%
+  group_by(coinflip) %>%
+  summarize(prop_favor = mean(cappun == "FAVOR")) %>%
+  pull()
+d_hat <- diff(p_hats)
+null <- gssmod %>%
+  specify(cappun ~ coinflip, success = "FAVOR") %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 500, type = "permute") %>%
+  calculate(stat = "diff in props", order = c("heads", "tails"))
+  
+# Visualize null
+ggplot(null, aes(x = stat)) +
+  # Add density layer
+  geom_density() +
+  # Add vertical red line at observed stat
+  geom_vline(xintercept = d_hat, color = "red")
+

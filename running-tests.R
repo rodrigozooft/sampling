@@ -684,3 +684,19 @@ SE_low_p <- boot_dist %>%
 
 # Compare SEs
 c(SE_low_p, SE)
+
+# From previous step
+n <- nrow(gss2016)
+p_hat <- gss2016 %>%
+  summarize(prop_pacific = mean(meta_region == "pacific")) %>%
+  pull()
+
+# Check conditions
+n * p_hat >= 10
+n * (1 - p_hat) >= 10
+
+# Calculate SE
+SE_approx <- sqrt(p_hat * (1 - p_hat) / n)
+
+# Form 95% CI
+c(p_hat - 2 * SE_approx, p_hat + 2 * SE_approx)

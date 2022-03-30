@@ -712,3 +712,15 @@ p_hat <- gss2016 %>%
 
 # See the result
 p_hat
+
+# From previous steps
+sim1 <- gss2016 %>%
+  specify(response = postlife, success = "YES") %>%
+  hypothesize(null = "point", p = 0.75) %>%
+  generate(reps = 1, type = "simulate")
+
+# Compute proportion that believe
+sim1 %>%
+  summarize(prop_yes = mean(postlife == "YES")) %>%
+  pull()
+

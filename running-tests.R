@@ -700,3 +700,15 @@ SE_approx <- sqrt(p_hat * (1 - p_hat) / n)
 
 # Form 95% CI
 c(p_hat - 2 * SE_approx, p_hat + 2 * SE_approx)
+
+# From previous step
+ggplot(gss2016, aes(x = postlife)) +
+  geom_bar()
+
+# Calculate and save proportion that believe
+p_hat <- gss2016 %>%
+  summarize(prop_yes = mean(postlife == "YES")) %>%
+  pull()
+
+# See the result
+p_hat

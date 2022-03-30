@@ -632,3 +632,17 @@ boot1 <- gss2016 %>%
 boot1 %>%
   summarize(prop_high = mean(consci == "High")) %>%
   pull()
+
+# From previous steps
+boot_dist <- gss2016 %>%
+  specify(response = consci, success = "High") %>%
+  generate(reps = 500, type = "bootstrap") %>%
+  calculate(stat = "prop")
+ggplot(boot_dist, aes(x = stat)) +
+  geom_density()
+SE <- boot_dist %>%
+  summarize(se = sd(stat)) %>%
+  pull()
+
+# Create CI
+c(p_hat - 2 * SE, p_hat + 2 * SE)

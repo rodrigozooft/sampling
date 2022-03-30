@@ -724,3 +724,18 @@ sim1 %>%
   summarize(prop_yes = mean(postlife == "YES")) %>%
   pull()
 
+# From previous step
+null <- gss2016 %>%
+  specify(response = postlife, success = "YES") %>%
+  hypothesize(null = "point", p = 0.75) %>%
+  generate(reps = 500, type = "simulate") %>%
+  calculate(stat = "prop")
+  
+null %>%
+  summarize(
+    # Compute the one-tailed p-value
+    one_tailed_pval = mean(stat >= p_hat),
+    # Compute the two-tailed p-value
+    two_tailed_pval = one_tailed_pval * 2
+  ) %>%
+  pull(two_tailed_pval)

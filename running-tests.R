@@ -668,3 +668,19 @@ SE_smaller_n <- boot_dist_smaller %>%
 # Compare the results for each dataset size
 message("gss2016_small has ", nrow(gss2016_small), " rows and standard error ", SE_small_n)
 message("gss2016_smaller has ", nrow(gss2016_smaller), " rows and standard error ", SE_smaller_n)
+
+# From previous steps
+ggplot(gss2016, aes(x = meta_region)) +
+  geom_bar()
+boot_dist <- gss2016 %>%
+  specify(response = meta_region, success = "pacific") %>%
+  generate(reps = 500, type = "bootstrap") %>%
+  calculate(stat = "prop")
+
+# Calculate std error
+SE_low_p <- boot_dist %>%
+  summarize(se = sd(stat)) %>%
+  pull()
+
+# Compare SEs
+c(SE_low_p, SE)

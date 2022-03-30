@@ -767,3 +767,17 @@ null %>%
   ) %>%
   pull(two_tailed_pval)
 
+# From previous step
+boot <- gss2016 %>%
+  specify(cappun ~ sex, success = "FAVOR") %>%
+  generate(reps = 500, type = "bootstrap") %>%
+  calculate(stat = "diff in props", order = c("FEMALE", "MALE"))
+    
+# Compute the standard error
+SE <- boot %>%
+  summarize(se = sd(stat)) %>%
+  pull()
+  
+# Form the CI (lower, upper)
+c(d_hat - 2 * SE, d_hat + 2 * SE)
+

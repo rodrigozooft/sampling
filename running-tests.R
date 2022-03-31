@@ -838,3 +838,18 @@ Obs %>%
   tidy() %>%
   # Expand out the counts
   uncount(n)
+
+# From previous step
+perm_1 <- gss_party %>%
+  specify(natarms ~ party) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1, type = "permute")
+  
+# Visualize permuted data
+ggplot(perm_1, aes(x = party, fill = natarms)) +
+  # Add bar layer
+  geom_bar()
+
+# Compute chi-squared stat
+gss_party %>%
+  chisq_stat(natarms ~ party)

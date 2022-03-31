@@ -826,3 +826,15 @@ gss_party <- gss2016 %>%
 ggplot(gss_party, aes(party, fill = natspac)) +
   geom_bar() 
   # Add bar layer of counts
+
+# From previous step
+Obs <- gss_party %>%
+  select(natspac, party) %>%
+  table()
+  
+# Convert table back to tidy df
+Obs %>%
+  # Tidy the table
+  tidy() %>%
+  # Expand out the counts
+  uncount(n)

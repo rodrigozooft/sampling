@@ -817,3 +817,12 @@ ggplot(null, aes(x = stat)) +
   geom_vline(xintercept = lower, color = "blue") +
   # Add vertical blue line for upper cutoff
   geom_vline(xintercept = upper, color = "blue")
+
+# From previous step
+gss_party <- gss2016 %>%
+  filter(party != "Oth")
+  
+# Visualize distribution take 2 
+ggplot(gss_party, aes(party, fill = natspac)) +
+  geom_bar() 
+  # Add bar layer of counts

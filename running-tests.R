@@ -800,3 +800,20 @@ ggplot(null, aes(x = stat)) +
   # Add vertical red line at observed stat
   geom_vline(xintercept = d_hat, color = "red")
 
+# From previous step
+alpha <- 0.05
+upper <- null %>%
+  summarize(u = quantile(stat, probs = 1 - alpha / 2)) %>%
+  pull()
+lower <- null %>%
+  summarize(l = quantile(stat, probs = alpha / 2)) %>%
+  pull()
+  
+# Visualize cutoffs
+ggplot(null, aes(x = stat)) +
+  geom_density() +
+  geom_vline(xintercept = d_hat, color = "red") +
+  # Add vertical blue line for lower cutoff
+  geom_vline(xintercept = lower, color = "blue") +
+  # Add vertical blue line for upper cutoff
+  geom_vline(xintercept = upper, color = "blue")

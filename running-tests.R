@@ -882,3 +882,14 @@ ggplot(null_arms, aes(x = stat)) +
   # Add vertical red line at obs stat
   geom_vline(xintercept = chi_obs_arms, color = "red")
 
+# Visualize distribution of region and happy
+ggplot(gss2016, aes(x = region, fill = happy)) +
+  # Add bar layer of proportions
+  geom_bar(position = "fill")
+  
+# Calculate and save observed statistic
+chi_obs <- gss2016 %>%
+  chisq_stat(happy ~ region)
+
+# See the result
+chi_obs

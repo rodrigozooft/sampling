@@ -893,3 +893,17 @@ chi_obs <- gss2016 %>%
 
 # See the result
 chi_obs
+
+# From previous step
+null <- gss2016 %>%
+  specify(happy ~ region, success = "HAPPY") %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 500, type = "permute") %>%
+  calculate(stat = "Chisq")
+  
+# Calculate computational pval
+null %>%
+  summarize(pval = mean(stat >= chi_obs))
+
+# Calculate approximate pval
+pchisq(chi_obs, df = 3, lower.tail = FALSE)

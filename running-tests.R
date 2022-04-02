@@ -907,3 +907,18 @@ null %>%
 
 # Calculate approximate pval
 pchisq(chi_obs, df = 3, lower.tail = FALSE)
+
+# From previous steps
+totals <- iran %>%
+  summarize(ahmadinejad = sum(ahmadinejad),
+            rezai = sum(rezai),
+            karrubi = sum(karrubi),
+            mousavi = sum(mousavi))
+gathered_totals <- totals %>%
+  gather(key = "candidate", value = "votes")
+
+# Plot total votes for each candidate
+ggplot(gathered_totals, aes(x = candidate, y = votes)) +
+  # Add col layer
+  geom_col()
+

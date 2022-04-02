@@ -969,3 +969,31 @@ null <- iran %>%
   generate(reps = 500, type = "simulate") %>%
   # Calculate statistics
   calculate(stat = "Chisq")
+
+# Compute degrees of freedom
+degrees_of_freedom <- iran %>%
+  # Pull out first_digit vector
+  pull("first_digit") %>% 
+  # Calculate n levels and subtract 1
+  nlevels() - 1
+
+# Plot both null dists
+ggplot(null, aes(x = stat)) +
+  # Add density layer
+  geom_density() +
+  # Add vertical line at obs stat
+  geom_vline(xintercept = chi_obs_stat, color = "red") +
+  # Overlay chisq approx
+  stat_function(fun = dchisq, args = list(df = degrees_of_freedom), color = "blue")
+
+  # From previous step
+degrees_of_freedom <- iran %>% 
+  pull(first_digit) %>% 
+  nlevels() - 1
+
+# Permutation p-value
+null %>%
+  summarize(pval = mean(stat >= chi_obs_stat))
+
+# Approximation p-value
+pchisq(chi_obs_stat, df = degrees_of_freedom, lower.tail = FALSE)

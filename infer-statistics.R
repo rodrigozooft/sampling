@@ -60,3 +60,20 @@ visit_sd_ci %>%
     l = quantile(stat, 0.05),
     u = quantile(stat, 0.95)
   )
+
+# From previous step
+n_replicates <- 15000
+rent_med_ht <- manhattan %>%
+  specify(response = rent) %>%
+  hypothesize(null = "point", med = 2500) %>% 
+  generate(reps = n_replicates, type = "bootstrap") %>% 
+  calculate(stat = "median")
+rent_med_obs <- manhattan %>%
+  summarize(median_rent = median(rent)) %>%
+  pull()
+  
+rent_med_ht %>%
+  # Filter for bootstrap stat greater than or equal to observed stat
+  filter(stat >= rent_med_obs) %>%
+  # Calculate the p-value
+  summarize(p_val = n() / 15000)

@@ -112,3 +112,17 @@ weight_mean_ht %>%
 y == z
 y > z
 y < z
+
+# 95th percentile for df = 10
+(x <- qt(0.95, df = 10))
+
+# Upper bound of middle 95th percent for df = 10
+(y <- qt(0.975, df = 10))
+
+# Upper bound of middle 95th percent for df = 100
+(z <- qt(0.975, df = 100))
+
+# Comparison
+y == z
+y > z
+y < z

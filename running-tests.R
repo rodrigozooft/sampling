@@ -935,3 +935,19 @@ province_totals
 # Filter for won provinces won by #2
 province_totals %>%
   filter(mousavi > ahmadinejad)
+
+# Print get_first
+get_first
+
+# Create first_digit variable
+iran <- iran %>%
+  mutate(first_digit = get_first(total_votes_cast))
+  
+# Check if get_first worked
+iran %>%
+  select(total_votes_cast, first_digit)
+
+# Construct bar plot
+ggplot(iran, aes(x = first_digit)) +
+  # Add bar layer
+  geom_bar()

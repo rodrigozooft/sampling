@@ -8,3 +8,27 @@ rent_med_ci <- manhattan %>%
 ggplot(rent_med_ci, aes(stat)) +
   # Make it a histogram with a binwidth of 50
   geom_histogram(binwidth = 50)
+
+# From previous steps
+rent_med_obs <- manhattan %>%
+  summarize(median_rent = median(rent)) %>%
+  pull()
+degrees_of_freedom <- nrow(manhattan) - 1 
+t_star <- qt(0.975, df = degrees_of_freedom)
+
+# Calculate the CI using the std error method
+rent_med_ci %>%
+  # Calculate the std error of the statistic
+  summarize(boot_se = sd(stat)) %>%
+  # Calculate the lower and upper limits of the CI
+  summarize(
+    l = rent_med_obs - t_star * boot_se,
+    u = rent_med_obs + t_star * boot_se
+  )
+  
+# Recall the CI using the percentile method from step 1
+rent_med_ci %>%
+  summarize(
+    l = quantile(stat, 0.025),
+    u = quantile(stat, 0.975)
+  )

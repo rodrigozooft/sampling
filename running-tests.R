@@ -922,3 +922,16 @@ ggplot(gathered_totals, aes(x = candidate, y = votes)) +
   # Add col layer
   geom_col()
 
+# Construct province-level dataset
+province_totals <- iran %>%
+  # Group by province
+  group_by(province) %>%
+  # Sum up votes for top two candidates
+  summarize(mousavi = sum(mousavi), ahmadinejad = sum(ahmadinejad)) 
+
+# Inspect data frame
+province_totals
+
+# Filter for won provinces won by #2
+province_totals %>%
+  filter(mousavi > ahmadinejad)

@@ -47,3 +47,16 @@ visit_mean_ci %>%
     l = quantile(stat, 0.05),
     u = quantile(stat, 0.95)
   )
+
+# From previous step
+visit_sd_ci <- ncbirths_complete_visits %>%
+  specify(response = visits) %>%
+  generate(reps = 15000, type = "bootstrap") %>%
+  calculate(stat = "sd")
+  
+# Calculate the 90% CI via percentile method
+visit_sd_ci %>%
+  summarize(
+    l = quantile(stat, 0.05),
+    u = quantile(stat, 0.95)
+  )

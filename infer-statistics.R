@@ -98,3 +98,17 @@ weight_mean_ht %>%
     one_sided_p_val = n() / n_replicates,
     two_sided_p_val = 2 * one_sided_p_val
   )
+
+# P(T < 3) for df = 10
+(x <- pt(3, df = 10))
+
+# P(T > 3) for df = 10
+(y <- 1- pt(3, df = 10))
+
+# P(T > 3) for df = 100
+(z <- 1- pt(3, df = 100))
+
+# Comparison
+y == z
+y > z
+y < z

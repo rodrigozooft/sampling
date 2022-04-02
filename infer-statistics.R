@@ -32,3 +32,18 @@ rent_med_ci %>%
     l = quantile(stat, 0.025),
     u = quantile(stat, 0.975)
   )
+
+# From previous steps
+ncbirths_complete_visits <- ncbirths %>%
+  filter(!is.na(visits))
+visit_mean_ci <- ncbirths_complete_visits %>%
+  specify(response = visits) %>%
+  generate(reps = 15000, type = "bootstrap") %>%
+  calculate(stat = "mean")
+  
+# Calculate the 90% CI via percentile method
+visit_mean_ci %>%
+  summarize(
+    l = quantile(stat, 0.05),
+    u = quantile(stat, 0.95)
+  )

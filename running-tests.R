@@ -997,3 +997,35 @@ null %>%
 
 # Approximation p-value
 pchisq(chi_obs_stat, df = degrees_of_freedom, lower.tail = FALSE)
+
+# From previous steps
+iowa_county <- iowa %>%
+  filter(candidate == "Hillary Clinton / Tim Kaine" | 
+         candidate == "Donald Trump / Mike Pence") %>%
+  group_by(county) %>%
+  summarize(dem_rep_votes = sum(votes)) %>%
+  mutate(first_digit = get_first(dem_rep_votes))
+  
+# Using iowa_county, plot first_digit
+ggplot(iowa_county, aes(first_digit)) + 
+  # Add bar layer
+  geom_bar()
+  
+# See the result
+iowa_county
+
+# From previous steps
+chi_obs_stat <- iowa_county %>%
+  chisq_stat(response = first_digit, p = p_benford)
+null <- iowa_county %>%
+  specify(response = first_digit) %>%
+  hypothesize(null = "point", p = p_benford) %>%
+  generate(reps = 500, type = "simulate") %>%
+  calculate(stat = "Chisq")
+
+# Visualize null stat
+ggplot(null, aes(stat)) + 
+  # Add density layer
+  geom_density() + 
+  # Add vertical line at observed stat
+  geom_vline(xintercept = chi_obs_stat, color = "red")

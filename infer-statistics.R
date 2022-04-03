@@ -158,3 +158,42 @@ textdiff_med_ci %>%
     l = quantile(stat, 0.025),
     u = quantile(stat, 0.975)
   )
+
+# From previous steps
+n_replicates <- 15000
+hsb2 <- hsb2 %>%
+  mutate(diff = math - science)
+scorediff_med_ht <- hsb2 %>%
+  specify(response = diff) %>%
+  hypothesize(null = "point", med = 0) %>% 
+  generate(reps = n_replicates, type = "bootstrap") %>% 
+  calculate(stat = "median")
+scorediff_med_obs <- hsb2 %>%
+  summarize(median_diff = median(diff)) %>%
+  pull()
+  
+# Calculate two-sided p-value
+scorediff_med_ht %>%
+  filter(stat >= scorediff_med_obs) %>%
+  summarize(
+    one_sided_p_val = n() / n_replicates,
+    two_sided_p_val = 2 * one_sided_p_val
+  )
+
+# From previous step
+stem.cell <- stem.cell %>%
+  mutate(change = after - before)
+  
+# Calculate observed difference in means
+diff_mean <- stem.cell %>%
+  # Group by treatment group
+  group_by(trmt) %>%
+  # Calculate mean change for each group
+  summarize(mean_change = mean(change)) %>% 
+  # Pull out the value
+  pull() %>%
+  # Calculate difference
+  diff()
+  
+# See the result
+diff_mean

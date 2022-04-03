@@ -145,3 +145,16 @@ t.test(textbooks$diff, conf.level = 0.95)
 
 # Same with 99% CI
 t.test(textbooks$diff, conf.level = 0.99)
+
+# From previous step
+textdiff_med_ci <- textbooks %>%
+  specify(response = diff) %>%
+  generate(reps = 15000, type = "bootstrap") %>%
+  calculate(stat = "median")
+
+# Calculate the 95% CI via percentile method
+textdiff_med_ci %>%
+  summarize(
+    l = quantile(stat, 0.025),
+    u = quantile(stat, 0.975)
+  )

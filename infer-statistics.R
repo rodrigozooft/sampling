@@ -264,3 +264,13 @@ diff_med_ci %>%
     l = quantile(stat, 0.04),
     u = quantile(stat, 0.96)
   )
+
+# From previous steps
+acs12_complete_hrlypay_citizen <- acs12 %>%
+  filter(!is.na(hrly_pay), !is.na(citizen))
+  
+# Using acs12_complete_hrlypay_citizen, plot hrly_pay
+ggplot(acs12_complete_hrlypay_citizen, aes(hrly_pay)) +
+  # Add a histogram layer
+  geom_histogram(binwidth = 5) +
+  facet_grid(rows = vars(citizen))

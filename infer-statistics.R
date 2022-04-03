@@ -274,3 +274,9 @@ ggplot(acs12_complete_hrlypay_citizen, aes(hrly_pay)) +
   # Add a histogram layer
   geom_histogram(binwidth = 5) +
   facet_grid(rows = vars(citizen))
+
+# Construct 95% CI using a t-test
+test_results <- t.test(hrly_pay ~ citizen, data = acs12_complete_hrlypay_citizen, conf.level = 0.95)
+
+# See the results
+test_results

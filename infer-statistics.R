@@ -249,3 +249,18 @@ diff_mean_ci %>%
     l = quantile(stat, 0.025),
     u = quantile(stat, 0.975)
   )
+
+# From previous step
+ncbirths_complete_habit_weeks <- ncbirths %>%
+  filter(!is.na(habit), !is.na(weeks))
+diff_med_ci <- ncbirths_complete_habit_weeks %>%
+  specify(weeks ~ habit) %>%
+  generate(reps = 1500, type = "bootstrap") %>%
+  calculate(stat = "diff in medians", order = c("nonsmoker", "smoker"))
+
+# Calculate the 92% CI via percentile method
+diff_med_ci %>%
+  summarize(
+    l = quantile(stat, 0.04),
+    u = quantile(stat, 0.96)
+  )

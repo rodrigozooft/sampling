@@ -126,3 +126,22 @@ y < z
 y == z
 y > z
 y < z
+
+# Filter for employed respondents
+acs12_emp <- acs12 %>%
+  filter(employment == "employed")
+
+# Construct 95% CI for avg time_to_work
+t.test(acs12_emp$time_to_work, conf.level = 0.95)
+
+# Run a t-test on hrs_work and look at the CI
+t.test(acs12_emp$hrs_work, conf.interval = 0.95)
+
+# Run a t-test on diff with a 90% CI
+t.test(textbooks$diff, conf.level = 0.9)
+
+# Same with 95% CI
+t.test(textbooks$diff, conf.level = 0.95)
+
+# Same with 99% CI
+t.test(textbooks$diff, conf.level = 0.99)

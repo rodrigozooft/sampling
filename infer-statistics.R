@@ -197,3 +197,42 @@ diff_mean <- stem.cell %>%
   
 # See the result
 diff_mean
+
+# From previous step
+n_replicates <- 1000
+diff_mean_ht <- stem.cell %>%
+  specify(change ~ trmt) %>% 
+  hypothesize(null = "independence") %>%  
+  generate(reps = n_replicates, type = "permute") %>% 
+  calculate(stat = "diff in means", order = c("esc", "ctrl"))
+  
+diff_mean_ht %>%
+  # Filter for simulated test statistics at least as extreme as observed
+  filter(stat >= diff_mean) %>%
+  # Calculate p-value
+  summarize(p_val = n() / n_replicates)
+
+# From previous steps
+ncbirths_complete_habit <- ncbirths %>%
+  filter(!is.na(habit))
+diff_mean_obs <- ncbirths_complete_habit %>%
+  group_by(habit) %>%
+  summarize(mean_weight = mean(weight)) %>%
+  pull() %>%
+  diff()
+n_replicates <- 1000
+diff_mean_ht <- ncbirths_complete_habit %>% 
+  specify(weight ~ habit) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(reps = n_replicates, type = "permute") %>%
+  calculate(stat = "diff in means", order = c("nonsmoker", "smoker")) 
+  
+# Calculate p-value
+diff_mean_ht %>%
+  # Identify simulated test statistics at least as extreme as observed
+  filter(stat <= diff_mean_obs)  %>%
+  # Calculate p-value
+  summarize(
+    one_sided_p_val = n() / n_replicates,
+    two_sided_p_val = 2 * one_sided_p_val
+  )

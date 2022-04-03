@@ -236,3 +236,16 @@ diff_mean_ht %>%
     one_sided_p_val = n() / n_replicates,
     two_sided_p_val = 2 * one_sided_p_val
   )
+
+# From previous step
+diff_mean_ci <- ncbirths_complete_habit %>%
+  specify(weight ~ habit) %>%
+  generate(reps = 1500, type = "bootstrap") %>%
+  calculate(stat = "diff in means", order = c("nonsmoker", "smoker"))
+  
+# Calculate the 95% CI via percentile method
+diff_mean_ci %>%
+  summarize(
+    l = quantile(stat, 0.025),
+    u = quantile(stat, 0.975)
+  )

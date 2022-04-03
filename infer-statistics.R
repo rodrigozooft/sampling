@@ -280,3 +280,10 @@ test_results <- t.test(hrly_pay ~ citizen, data = acs12_complete_hrlypay_citizen
 
 # See the results
 test_results
+
+# Using gss, plot wordsum
+ggplot(gss, aes(wordsum)) +
+  # Add a histogram layer
+  geom_histogram(binwidth = 1) +
+  # Facet by class
+  facet_wrap(~class)

@@ -305,3 +305,16 @@ t_test_results <- pairwise.t.test(gss$wordsum, gss$class, p.adjust.method = "non
 
 # Tidy the result
 tidy(t_test_results)
+
+# Load the mosaicData package and the RailTrail data
+library(mosaicData)
+data(RailTrail)
+
+# Fit a linear model
+ride_lm <- lm(volume ~ hightemp, data = RailTrail)
+
+# View the summary of your model
+summary(ride_lm)
+
+# Print the tidy model output
+tidy(ride_lm)

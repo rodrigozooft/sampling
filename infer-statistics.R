@@ -350,3 +350,27 @@ ggplot(both_samples, aes(x = explanatory, y = response, color = replicate)) +
   geom_point() + 
   # Add a smooth trend layer, using lin. reg., no ribbon
   geom_smooth(method = "lm", se = FALSE)
+
+# From previous step
+set.seed(4747)
+many_samples <- popdata %>% rep_sample_n(size = 50, reps = 100)
+
+# Using many_samples, plot response vs. explanatory, grouped by replicate
+ggplot(many_samples, aes(x = explanatory, y = response, group = replicate)) + 
+  # Add a point layer
+  geom_point() + 
+  # Add a smooth trend line, using lin. reg., no ribbon
+  geom_smooth(method = "lm", se = FALSE) 
+
+# From previous steps
+set.seed(4747)
+many_samples <- popdata %>% rep_sample_n(size = 50, reps = 100)
+many_lms <- many_samples %>% 
+  group_by(replicate) %>% 
+  do(lm(response ~ explanatory, data=.) %>% tidy()) %>%
+  filter(term == "explanatory")
+
+# Using many_lms, plot estimate
+ggplot(many_lms, aes(estimate)) +
+  # Add a histogram layer
+  geom_histogram()

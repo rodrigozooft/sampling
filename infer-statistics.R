@@ -318,3 +318,35 @@ summary(ride_lm)
 
 # Print the tidy model output
 tidy(ride_lm)
+
+# Set the random number generator seed for reproducibility
+set.seed(4747)
+
+# From popdata, randomly sample 50 rows without replacement
+sample1 <- popdata %>%
+   sample_n(size = 50)
+
+# Do the same again
+sample2 <- popdata %>%
+   sample_n(size = 50)
+
+# Combine both samples
+both_samples <- bind_rows(sample1, sample2, .id = "replicate")
+
+# See the result
+glimpse(both_samples)
+
+# From previous step
+set.seed(4747)
+both_samples <- bind_rows(
+  popdata %>% sample_n(size = 50), 
+  popdata %>% sample_n(size = 50), 
+  .id = "replicate"
+)
+
+# Using both_samples, plot response vs. explanatory, colored by replicate
+ggplot(both_samples, aes(x = explanatory, y = response, color = replicate)) + 
+  # Add a point layer
+  geom_point() + 
+  # Add a smooth trend layer, using lin. reg., no ribbon
+  geom_smooth(method = "lm", se = FALSE)

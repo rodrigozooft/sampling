@@ -438,3 +438,22 @@ perm_slope <- twins %>%
 
 # See the result
 perm_slope
+
+# From previous step
+perm_slope <- twins %>%
+  specify(Foster ~ Biological) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 500, type = "permute") %>%
+  calculate(stat = "slope")
+
+perm_slope %>% 
+  # Ungroup the dataset
+  ungroup() %>% 
+  # Calculate summary statistics
+  summarize(
+    # Mean of stat
+    mean_stat = mean(stat), 
+    # Std error of stat
+    std_err_stat = sd(stat)
+  )
+

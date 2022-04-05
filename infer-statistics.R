@@ -387,3 +387,12 @@ ggplot(many_samples, aes(y = response, x = explanatory, group = replicate)) +
   # Add a smooth  trend layer, using lin. reg., no ribbon 
   geom_smooth(method = "lm", se = FALSE)
 
+# Update the sampling to use new_popdata
+many_samples <- new_popdata %>%
+  rep_sample_n(size = 50, reps = 100)
+
+# Rerun the plot; how does it change?
+ggplot(many_samples, aes(x = explanatory, y = response, group = replicate)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE)
+

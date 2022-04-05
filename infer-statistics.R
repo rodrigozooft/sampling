@@ -407,3 +407,34 @@ ggplot(many_samples, aes(x = explanatory, y = response, group = replicate)) +
   # Set the x-axis limit from -17 to 17
   xlim(c(-17,17))
 
+library(infer)
+
+# Calculate the observed slope
+# Run a lin. reg. of Foster vs. Biological on the twins data
+obs_slope <- lm(Foster ~ Biological, data = twins) %>%
+  # Tidy the result
+  tidy() %>%   
+  # Filter for rows where term equal Biological
+  filter(term == "Biological") %>%
+  # Pull out the estimate column
+  pull(estimate) 
+
+# See the result
+obs_slope
+
+library(infer)
+set.seed(4747) 
+
+# Simulate 10 slopes with a permuted dataset
+perm_slope <- twins %>%
+  # Specify Foster vs. Biological
+  specify(Foster ~ Biological) %>%
+  # Use a null hypothesis of independence
+  hypothesize(null = "independence") %>%
+  # Generate 10 permutation replicates
+  generate(reps = 10, "permute") %>%
+  # Calculate the slope statistic
+  calculate(stat = "slope")
+
+# See the result
+perm_slope

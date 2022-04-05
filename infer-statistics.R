@@ -396,3 +396,14 @@ ggplot(many_samples, aes(x = explanatory, y = response, group = replicate)) +
   geom_point() + 
   geom_smooth(method = "lm", se = FALSE)
 
+# Update the sampling to use even_newer_popdata
+many_samples <- even_newer_popdata %>%
+  rep_sample_n(size = 50, reps = 100)
+
+# Update and rerun the plot; how does it change?
+ggplot(many_samples, aes(x = explanatory, y = response, group = replicate)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE) +
+  # Set the x-axis limit from -17 to 17
+  xlim(c(-17,17))
+

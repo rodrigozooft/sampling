@@ -473,3 +473,18 @@ perm_slope %>%
     # Get prop. cases where abs. permuted slope is greater than or equal to abs. observed slope
     p_value = mean(abs_perm_slope >= abs_obs_slope)
   )
+
+# Set the seed for reproducibility
+set.seed(4747)
+
+# Calculate 1000 bootstrapped slopes
+boot_slope <- twins %>%
+  # Specify Foster vs. Biological
+  specify(Foster ~ Biological) %>%
+  # Generate 1000 bootstrap replicates
+  generate(reps = 1000, type = "bootstrap") %>%
+  # Calculate the slope statistic
+  calculate(stat = "slope")
+
+# See the result  
+boot_slope

@@ -374,3 +374,16 @@ many_lms <- many_samples %>%
 ggplot(many_lms, aes(estimate)) +
   # Add a histogram layer
   geom_histogram()
+
+set.seed(4747)
+
+# Generate 100 random samples of size 50
+many_samples <- popdata %>% rep_sample_n(size = 50, reps = 100)
+
+# Using many_samples, plot response vs. explanatory, grouped by replicate
+ggplot(many_samples, aes(y = response, x = explanatory, group = replicate)) + 
+  # Add a point layer
+  geom_point() + 
+  # Add a smooth  trend layer, using lin. reg., no ribbon 
+  geom_smooth(method = "lm", se = FALSE)
+

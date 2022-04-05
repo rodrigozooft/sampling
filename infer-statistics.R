@@ -457,3 +457,19 @@ perm_slope %>%
     std_err_stat = sd(stat)
   )
 
+# From previous step
+abs_obs_slope <- lm(Foster ~ Biological, data = twins) %>%
+  tidy() %>%   
+  filter(term == "Biological") %>%
+  pull(estimate) %>%
+  abs()
+
+# Compute the p-value  
+perm_slope %>% 
+  # Add a column of the absolute value of the slope
+  mutate(abs_perm_slope = abs(stat)) %>%
+  # Calculate a summary statistic
+  summarize(
+    # Get prop. cases where abs. permuted slope is greater than or equal to abs. observed slope
+    p_value = mean(abs_perm_slope >= abs_obs_slope)
+  )

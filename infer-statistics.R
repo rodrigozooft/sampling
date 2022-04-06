@@ -488,3 +488,22 @@ boot_slope <- twins %>%
 
 # See the result  
 boot_slope
+
+set.seed(4747)
+
+# Calculate the slope statistic 
+# from 1000 bootstrap replicates of
+# the Foster vs. Biological model
+# of the twins dataset
+boot_slope <- twins %>%
+  specify(Foster ~ Biological) %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "slope")
+
+# Create a confidence interval of stat
+# 2 std devs each side of the mean
+boot_slope %>% 
+  summarize(
+    lower = mean(stat) - 2 * sd(stat),
+    upper = mean(stat) + 2 * sd(stat)
+  )

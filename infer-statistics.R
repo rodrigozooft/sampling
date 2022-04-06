@@ -523,3 +523,15 @@ boot_slope %>%
     lower = quantile(stat, p_lower),
     upper = quantile(stat, p_upper)
   )
+
+# From previous step
+biological_perm <- twins_perm %>%
+  filter(term == "Biological_perm")
+degrees_of_freedom <- nrow(twins) - 2
+
+# Using biological_perm, plot statistic
+ggplot(biological_perm, aes(statistic)) + 
+  # Add a histogram layer, with density on the y axis
+  geom_histogram(aes(y = ..density..)) + 
+  # Add a t-distribution function stat, colored red
+  stat_function(fun = dt, args = list(df = degrees_of_freedom), color = "red")

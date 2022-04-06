@@ -507,3 +507,19 @@ boot_slope %>%
     lower = mean(stat) - 2 * sd(stat),
     upper = mean(stat) + 2 * sd(stat)
   )
+
+# Set alpha
+alpha <- 0.05
+
+# Set the lower percentile cutoff
+p_lower <- 0.025
+
+# Set the upper percentile cutoff
+p_upper <- 0.975
+
+# Create a confidence interval of stat using quantiles
+boot_slope %>% 
+  summarize(
+    lower = quantile(stat, p_lower),
+    upper = quantile(stat, p_upper)
+  )

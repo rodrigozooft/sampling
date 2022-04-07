@@ -617,3 +617,15 @@ boot_slope %>%
     lower = quantile(stat, p_lower), 
     upper = quantile(stat, p_upper)
   )
+
+# From previous steps
+model <- lm(Foster ~ Biological, data = twins)
+new_twins <- data.frame(Biological = seq(70, 130, 15))
+augmented_model <- model %>% augment(newdata = new_twins)
+
+augmented_model %>%
+  # Calculate a confidence interval on the predicted values
+  mutate(
+    lower_mean_prediction = .fitted - critical_value * .se.fit,
+    upper_mean_prediction = .fitted + critical_value * .se.fit
+  )

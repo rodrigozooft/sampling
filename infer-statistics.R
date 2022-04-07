@@ -561,3 +561,19 @@ biological_term %>%
     # ... and its two-sided p-value
     two_sided_p_value_of_test_statistic = one_sided_p_value_of_test_statistic * 2
   )
+  
+# The slope in the observed data and each permutation replicate
+obs_slope
+perm_slope
+
+# Calculate the absolute value of the observed slope
+abs_obs_slope <- abs(obs_slope)
+
+# Find the p-value
+perm_slope %>%
+  # Add a column for the absolute value of stat
+  mutate(abs_slope = abs(stat)) %>%
+  summarize(
+    # Calculate prop'n permuted values at least as extreme as observed
+    p_value = mean(abs_slope >= obs_slope)
+  )

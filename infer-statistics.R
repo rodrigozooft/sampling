@@ -535,3 +535,17 @@ ggplot(biological_perm, aes(statistic)) +
   geom_histogram(aes(y = ..density..)) + 
   # Add a t-distribution function stat, colored red
   stat_function(fun = dt, args = list(df = degrees_of_freedom), color = "red")
+
+model <- lm(Foster ~ Biological, data = twins)
+
+# Get the Biological model coefficient
+biological_term <- model %>% 
+  # Tidy the model
+  tidy() %>%
+  # Filter for term equal to "Biological"
+  filter(term == "Biological") 
+
+biological_term %>%
+  # Add a column of one-sided p-values
+  mutate(one_sided_p_value = p.value / 2)
+

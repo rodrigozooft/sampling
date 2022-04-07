@@ -595,3 +595,25 @@ tidied_model %>%
     lower = estimate - critical_value * std.error,
     upper = estimate + critical_value * std.error
   )
+
+# From previous step
+alpha <- 0.05
+confidence_level <- 1 - alpha
+p_lower <- alpha / 2
+p_upper <- 1 - alpha / 2
+
+# Tidy the model, including a confidence interval
+tidied_model <- lm(Foster ~ Biological, data = twins) %>% 
+   tidy(conf.int = TRUE, conf.level = confidence_level)
+
+# Recall the t-confidence interval
+tidied_model %>%
+  filter(term == "Biological") %>%
+  select(conf.low, conf.high)
+
+# Create the bootstrap confidence interval
+boot_slope %>% 
+  summarize(
+    lower = quantile(stat, p_lower), 
+    upper = quantile(stat, p_upper)
+  )

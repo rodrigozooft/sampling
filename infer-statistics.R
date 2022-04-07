@@ -549,3 +549,15 @@ biological_term %>%
   # Add a column of one-sided p-values
   mutate(one_sided_p_value = p.value / 2)
 
+# Calculate the degrees of freedom of twins
+degrees_of_freedom <- nrow(twins) - 2
+
+biological_term %>%
+  mutate(
+    # Calculate the test statistic
+    test_statistic = (estimate - 1) / std.error,
+    # Calculate its one-sided p-value
+    one_sided_p_value_of_test_statistic = pt(test_statistic, df = degrees_of_freedom),
+    # ... and its two-sided p-value
+    two_sided_p_value_of_test_statistic = one_sided_p_value_of_test_statistic * 2
+  )

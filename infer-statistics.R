@@ -629,3 +629,17 @@ augmented_model %>%
     lower_mean_prediction = .fitted - critical_value * .se.fit,
     upper_mean_prediction = .fitted + critical_value * .se.fit
   )
+
+# This plot is shown
+ggplot(twins, aes(x = Biological, y = Foster)) + 
+  geom_point() +
+  geom_smooth(method = "lm") 
+
+ggplot() + 
+  # Add a point layer of Foster vs. Biological, using twins
+  geom_point(aes(y = Foster, x = Biological), data = twins) +
+  # Add a line layer of .fitted vs Biological, using predictions, colored blue
+  geom_line(aes(y = .fitted, x = Biological), data = predictions, color = "blue") +
+  # Add a ribbon layer of lower_mean_prediction to upper_mean_prediction vs Biological, 
+  # using predictions, transparency of 0.2
+  geom_ribbon(aes(x = Biological, ymin = lower_mean_prediction, ymax = upper_mean_prediction), data = predictions, alpha = 0.2)

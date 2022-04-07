@@ -561,7 +561,7 @@ biological_term %>%
     # ... and its two-sided p-value
     two_sided_p_value_of_test_statistic = one_sided_p_value_of_test_statistic * 2
   )
-  
+
 # The slope in the observed data and each permutation replicate
 obs_slope
 perm_slope
@@ -576,4 +576,22 @@ perm_slope %>%
   summarize(
     # Calculate prop'n permuted values at least as extreme as observed
     p_value = mean(abs_slope >= obs_slope)
+  )
+
+# From previous step
+alpha <- 0.05
+degrees_of_freedom <- nrow(twins) - 2
+confidence_level <- 1 - alpha
+p_upper <- 1 - alpha / 2
+critical_value <- qt(p_upper, df = degrees_of_freedom)
+
+tidied_model <- lm(Foster ~ Biological, data = twins) %>% 
+  # Tidy the model, with a confidence interval
+  tidy(conf.int = TRUE, conf.level = confidence_level) 
+
+tidied_model %>%
+  # Manually calculate the same interval
+  mutate(
+    lower = estimate - critical_value * std.error,
+    upper = estimate + critical_value * std.error
   )

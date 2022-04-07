@@ -643,3 +643,28 @@ ggplot() +
   # Add a ribbon layer of lower_mean_prediction to upper_mean_prediction vs Biological, 
   # using predictions, transparency of 0.2
   geom_ribbon(aes(x = Biological, ymin = lower_mean_prediction, ymax = upper_mean_prediction), data = predictions, alpha = 0.2)
+
+  # From previous step3
+twins_sigma <- model %>% glance() %>% pull(sigma)
+predictions3 <- predictions %>%
+  mutate(
+    std_err_of_predictions = sqrt(twins_sigma ^ 2 + .se.fit ^ 2),
+    lower_response_prediction = .fitted - critical_value * std_err_of_predictions,
+    upper_response_prediction = .fitted + critical_value * std_err_of_predictions
+  )
+
+# Update the plot
+ggplot() + 
+  geom_point(aes(x = Biological, y = Foster), data = twins) +
+  geom_smooth(aes(x = Biological, y = Foster), data = twins, method = "lm") + 
+  # Add a ribbon layer
+  geom_ribbon(
+    # ... of lower_response_prediction to upper_response_prediction vs. Biological
+    aes(x = Biological, ymin = lower_response_prediction, ymax = upper_response_prediction), 
+    # ... using the predictions3 dataset
+    data = predictions3, 
+    # ... with transparency set to 0.2
+    alpha = 0.2, 
+    # ... and fill color red
+    fill = "red"
+  )

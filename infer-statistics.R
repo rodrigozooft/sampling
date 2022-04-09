@@ -706,3 +706,9 @@ p +
   # Add another smooth lin .reg. layer, no ribbon, 
   # hypdata_no_outlier data, colored red
   geom_smooth(method = "lm", se = FALSE, data = hypdata_no_outlier, color = "red")
+
+# Model response vs. explanatory on hypdata_outlier and tidy it
+lm(response ~ explanatory, data = hypdata_outlier) %>% tidy() %>% pull(estimate, p.value)
+
+# Do the same on hypdata_no_outlier
+lm(response ~ explanatory, data = hypdata_no_outlier) %>% tidy() %>% pull(estimate, p.value)

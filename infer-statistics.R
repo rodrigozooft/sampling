@@ -668,3 +668,15 @@ ggplot() +
     # ... and fill color red
     fill = "red"
   )
+
+  # Run a linear regression of response vs. explanatory
+model <- lm(response ~ explanatory, data = hypdata_nice)
+
+# Augment to get the observation-level information
+modeled_observations <- augment(model)
+
+# See the result
+modeled_observations
+
+# Using modeled_observations, draw a scatter plot of .resid vs. .fitted
+ggplot(modeled_observations, aes(y = .resid, x = .fitted)) + geom_point()

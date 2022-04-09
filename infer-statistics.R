@@ -722,3 +722,24 @@ perm_slope_out %>%
 perm_slope_noout %>% 
   mutate(abs_perm_slope = abs(stat)) %>%
   summarize(p_value = mean(abs_perm_slope >= obs_slope_noout))
+
+# Run this to see how the model looks
+ggplot(hypdata_nonlinear, aes(x = explanatory + explanatory ^ 2, y = response)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE)
+
+# Model response vs. explanatory plus explanatory squared
+model <- lm(response ~ explanatory + I(explanatory ^ 2), data = hypdata_nonlinear)
+
+# Extract observation-level information
+modeled_observations <- augment(model)
+
+# See the result
+modeled_observations
+
+# Using modeled_observations, plot residuals vs. fitted values
+ggplot(modeled_observations, aes(x = .fitted, y = .resid)) +
+  # Add a point layer
+  geom_point() + 
+  # Add horizontal line at y = 0
+  geom_hline(yintercept = 0)

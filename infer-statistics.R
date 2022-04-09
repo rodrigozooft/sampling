@@ -680,3 +680,16 @@ modeled_observations
 
 # Using modeled_observations, draw a scatter plot of .resid vs. .fitted
 ggplot(modeled_observations, aes(y = .resid, x = .fitted)) + geom_point()
+
+# Run a linear regression of response vs. explanatory
+model <- lm(response ~ explanatory, data = hypdata_poor)
+
+# Augment to get the observation-level information
+modeled_observations <- augment(model)
+
+# See the result
+modeled_observations
+
+# Using modeled_observations, draw a scatter plot 
+# of residuals vs. fitted values
+modeled_observations %>% ggplot(aes(y = .resid, x = .fitted)) + geom_point()

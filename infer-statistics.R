@@ -693,3 +693,16 @@ modeled_observations
 # Using modeled_observations, draw a scatter plot 
 # of residuals vs. fitted values
 modeled_observations %>% ggplot(aes(y = .resid, x = .fitted)) + geom_point()
+
+# This plot is shown
+p <- ggplot(hypdata_outlier, aes(x = explanatory, y = response)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) 
+
+# Filter to remove the outlier
+hypdata_no_outlier <- hypdata_outlier %>% filter(response < 100)
+
+p +
+  # Add another smooth lin .reg. layer, no ribbon, 
+  # hypdata_no_outlier data, colored red
+  geom_smooth(method = "lm", se = FALSE, data = hypdata_no_outlier, color = "red")

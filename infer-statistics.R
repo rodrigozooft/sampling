@@ -712,3 +712,13 @@ lm(response ~ explanatory, data = hypdata_outlier) %>% tidy() %>% pull(estimate,
 
 # Do the same on hypdata_no_outlier
 lm(response ~ explanatory, data = hypdata_no_outlier) %>% tidy() %>% pull(estimate, p.value)
+
+# Calculate the p-value with the outlier
+perm_slope_out %>% 
+  mutate(abs_perm_slope = abs(stat)) %>%
+  summarize(p_value = mean(abs_perm_slope >= obs_slope_out))
+
+# Calculate the p-value without the outlier
+perm_slope_noout %>% 
+  mutate(abs_perm_slope = abs(stat)) %>%
+  summarize(p_value = mean(abs_perm_slope >= obs_slope_noout))

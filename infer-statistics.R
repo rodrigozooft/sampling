@@ -764,3 +764,30 @@ ggplot(modeled_observations, aes(x = .fitted, y = .resid)) +
   geom_point() + 
   # Add horizontal line at y = 0
   geom_hline(yintercept = 0)
+
+# Run this to see how the model looks
+ggplot(hypdata_nonnorm, aes(x = explanatory, y = sqrt(response))) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE)
+
+# Model response vs. explanatory 
+model <- lm(sqrt(response) ~ explanatory, data = hypdata_nonnorm)
+
+# Extract observation-level information
+modeled_observations <- augment(model)
+
+# See the result
+modeled_observations
+
+# Using modeled_observations, plot residuals vs. fitted values
+ggplot(modeled_observations, aes(x = .fitted, y = .resid)) +
+  # Add a point layer
+  geom_point() + 
+  # Add horizontal line at y = 0
+  geom_hline(yintercept = 0)
+
+  # Create a tidy model
+lm(price ~ bed, data = LAhomes) %>% tidy()
+
+# Create a tidy model using the log of both variables
+lm(log(price) ~ log(bed), data = LAhomes) %>% tidy()

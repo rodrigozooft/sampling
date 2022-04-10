@@ -800,3 +800,9 @@ lm(log(price) ~ log(bath), data = LAhomes) %>% tidy()
 
 # Output the tidy model
 lm(log(price) ~ log(sqft) + log(bath), data = LAhomes) %>% tidy()
+
+# Output the first model
+lm(Price ~ Service, data = restNYC) %>% tidy()
+
+# Output the second model
+lm(Price ~ Service + Food + Decor, data = restNYC) %>% tidy()

@@ -791,3 +791,12 @@ lm(price ~ bed, data = LAhomes) %>% tidy()
 
 # Create a tidy model using the log of both variables
 lm(log(price) ~ log(bed), data = LAhomes) %>% tidy()
+
+# Output the tidy model
+lm(log(price) ~ log(sqft), data = LAhomes) %>% tidy()
+
+# Output the tidy model
+lm(log(price) ~ log(bath), data = LAhomes) %>% tidy()
+
+# Output the tidy model
+lm(log(price) ~ log(sqft) + log(bath), data = LAhomes) %>% tidy()
